@@ -1,5 +1,5 @@
 import { html } from '../../utils/html.js';
-import { VARIETIES } from '../../data/varieties.js';
+import { findVariety, VARIETIES } from '../../data/varieties.js';
 import { icon } from '../../components/icons.js';
 import { badge, button, card, chartCard, metricsGrid, sectionHead } from '../../components/ui.js';
 import { barChart, lineChart } from '../../components/charts.js';
@@ -23,7 +23,7 @@ export function comparisonPage() {
       html`<div><span class="overline">Ranking preditivo</span><h2>Qual variedade apresenta o melhor cenário para exportação?</h2><p>Score combinado de clima, preço, demanda e risco logístico.</p></div><div class="ranking-list">${ranking}</div>`,
       'ranking',
     ),
-    html`<div class="grid-2">${chartCard({ title: 'Score por dimensão', subtitle: 'Comparação multicritério', content: barChart([89, 93, 74, 96, 85, 90, 81]) })}${chartCard({ title: 'Tendência de preço', subtitle: 'Comparação das variedades', content: lineChart({ secondary: [22, 23, 24, 26, 25, 27, 28, 29, 28, 30, 29, 31, 32] }) })}</div>`,
+    html`<div class="grid-2">${chartCard({ title: 'Score por dimensão', subtitle: 'Comparação multicritério', content: barChart([89, 93, 74, 96, 85, 90, 81], ['Clima', 'Preço', 'Demanda', 'Risco', 'Logística', 'Qualidade', 'Exportação']) })}${chartCard({ title: 'Tendência de preço', subtitle: 'Comparação das variedades', content: lineChart({ secondary: [22, 23, 24, 26, 25, 27, 28, 29, 28, 30, 29, 31, 32], labels: ['Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set'] }) })}</div>`,
     comparisonTable(),
   );
 }
@@ -31,9 +31,9 @@ export function comparisonPage() {
 /* -------------------------------- Alertas -------------------------------- */
 
 const ALERTS = [
-  { category: 'Colheita', message: 'Condições favoráveis para colheita da Uva Itália.', level: 'Informativo', tone: 'info', icon: 'leaf', subject: VARIETIES[0].name },
-  { category: 'Climático', message: 'Umidade acima da faixa para Thompson Seedless.', level: 'Atenção', tone: 'warning', icon: 'cloud', subject: VARIETIES[1].name },
-  { category: 'Logística', message: 'Janela de exportação favorável para Crimson nas próximas 48h.', level: 'Importante', tone: 'orange', icon: 'truck', subject: VARIETIES[2].name },
+  { category: 'Colheita', message: 'Condições favoráveis para colheita da Uva Itália.', level: 'Informativo', tone: 'info', icon: 'leaf', subject: findVariety('Uva Itália').name },
+  { category: 'Climático', message: 'Umidade acima da faixa para Thompson Seedless.', level: 'Atenção', tone: 'warning', icon: 'cloud', subject: findVariety('Thompson Seedless').name },
+  { category: 'Logística', message: 'Janela de exportação favorável para Crimson nas próximas 48h.', level: 'Importante', tone: 'orange', icon: 'truck', subject: findVariety('Crimson Seedless').name },
   { category: 'Sistema', message: 'Falha temporária de sincronização resolvida.', level: 'Informativo', tone: 'info', icon: 'settings', subject: 'Integração' },
 ];
 

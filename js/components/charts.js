@@ -19,7 +19,7 @@ function toSvgPoints(series) {
     .join(' ');
 }
 
-export function lineChart({ data = TEMPERATURE_SERIES, secondary, color = 'green' } = {}) {
+export function lineChart({ data = TEMPERATURE_SERIES, secondary, color = 'green', labels = CHART_HOURS } = {}) {
   const points = toSvgPoints(data);
   return html`<div class="chart-wrap"><svg class="line-chart" viewBox="0 0 600 190" preserveAspectRatio="none">
     ${GRID_LINES_Y.map((y) => html`<line x1="18" y1="${y}" x2="582" y2="${y}" class="gridline"/>`)}
@@ -27,12 +27,12 @@ export function lineChart({ data = TEMPERATURE_SERIES, secondary, color = 'green
     <polygon points="${points} 582,170 18,170" class="area chart-${color}" fill="url(#fill-${color})"/>
     <polyline points="${points}" class="series chart-${color}"/>
     ${secondary && html`<polyline points="${toSvgPoints(secondary)}" class="series chart-blue dashed"/>`}
-  </svg><div class="axis-labels">${CHART_HOURS.map((hour) => html`<span>${hour}</span>`)}</div></div>`;
+  </svg><div class="axis-labels">${labels.map((hour) => html`<span>${hour}</span>`)}</div></div>`;
 }
 
-export const barChart = (values = DEFAULT_BARS) =>
+export const barChart = (values = DEFAULT_BARS, labels = WEEKDAYS) =>
   html`<div class="bar-chart">${values.map(
-    (value, index) => html`<div class="bar-col"><div class="bar-value">${value}</div><div class="bar" style="height:${value}%"></div><span>${WEEKDAYS[index]}</span></div>`,
+    (value, index) => html`<div class="bar-col"><div class="bar-value">${value}</div><div class="bar" style="height:${value}%"></div><span>${labels[index]}</span></div>`,
   )}</div>`;
 
 export const chartLegend = (items) =>
